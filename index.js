@@ -22,24 +22,24 @@ mongoose.connect(
 const app = express();
 app.use(express.json());
 
-app.post("/userAuth/login", async (req, res) => {
+app.post("/userAuth/signin", async (req, res) => {
   const { email, password } = req.body;
-  isLocated = await userAuth.find({ email: email });
+  console.log(req.body);
+  isLocated = await userAuth.find({ email: email, password: password });
   if (isLocated) {
-    res.status(200).json({ isOk: true });
+    res.status(200).json({ succ: true });
   } else {
-    res.status(404).json({ error: "Not Found" });
+    res.status(404).json({ succ: false });
   }
 });
 
 app.post("/userAuth/signup", async (req, res) => {
   const credentials = req.body;
-
   isInserted = await userAuth.insert(credentials);
   if (isInserted) {
-    res.status(200).json({ isOk: true });
+    res.status(200).json({ succ: true });
   } else {
-    res.status(500).json({ error: "Not Signed up" });
+    res.status(500).json({ succ: false });
   }
 });
 
